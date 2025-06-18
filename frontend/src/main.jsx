@@ -5,7 +5,7 @@ import App from './App.jsx';
 import ControlsPage from './pages/ControlsPage.jsx';
 import CreateControlPage from './pages/CreateControlPage.jsx';
 import ControlCategory from './pages/ControlCategory.jsx';
-import ComplianceISO from './pages/complianceISO.jsx';
+import ComplianceISO from './pages/ComplianceISO.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

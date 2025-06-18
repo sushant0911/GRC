@@ -14,7 +14,6 @@ const ControlsPage = () => {
     const fetchControls = async () => {
       setLoading(true);
       try {
-        // Use proxy or full URL as per your setup
         const res = await axios.get("http://localhost:3000/api/controls");
         setControls(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
@@ -25,6 +24,7 @@ const ControlsPage = () => {
     };
     fetchControls();
   }, [location.key]);
+  console.log(controls[0]);
 
   if (loading)
     return (
@@ -66,8 +66,9 @@ const ControlsPage = () => {
           <table className="controls-table">
             <thead>
               <tr>
-                <th>ISO 27001:2022 Control Ref</th>
-                <th>CIC Regulation Reference</th>
+                <th>ISO 27001:2022</th>
+                <th>CICRA</th>
+                <th>CIBIL</th>
                 <th>Control Name</th>
                 <th>Audit Objective Summary</th>
                 <th>Risk Level</th>
@@ -80,43 +81,73 @@ const ControlsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {controls.map((control, idx) => (
-                <tr
-                  key={control._id || idx}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate(`/controls/create/${control._id}`)}
-                  title="Click to edit"
-                >
-                  <td>{control.isoControlRefs?.join(", ")}</td>
-                  <td>{control.cicRegulationRefs?.join(", ")}</td>
-                  <td>{control.controlName}</td>
-                  <td>{control.auditObjectiveSummary}</td>
-                  <td>
-                    <span
-                      className={
-                        "risk-pill " +
-                        (control.riskLevel === "critical"
-                          ? "risk-critical"
-                          :control.riskLevel === "high"
-                          ? "risk-high"
-                          : control.riskLevel === "medium"
-                          ? "risk-medium"
-                          : control.riskLevel === "low"
-                          ? "risk-low"
-                          : "")
-                      }
-                    >
-                      {control.riskLevel?.toUpperCase()}
-                    </span>
-                  </td>
-                  <td>{control.auditFrequency}</td>
-                  <td>{control.department?.join(", ")}</td>
-                  <td>{control.keyOwner}</td>
-                  <td>{control.keyEvidenceToBeVerified?.join(", ")}</td>
-                  <td>{control.evidenceAttached?.join(", ")}</td>
-                  <td>{control.auditorComment}</td>
-                </tr>
-              ))}
+              {controls.map((control, idx) => {
+                console.log((control.complianceReferences?.find((f)=>f.compliance === "ISO"))?.referenceNumber);
+                
+                return (
+                  <tr
+                    key={control._id || idx}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => navigate(`/controls/create/${control._id}`)}
+                    title="Click to edit"
+                  >
+                    <td>
+                      {(control?.complianceReferences?.find(
+                        (ref) => ref.compliance === "ISO"
+                      ))?.referenceNumber}
+                    </td>
+                    <td>
+                      {control.complianceReferences
+                        ?.filter((ref) => ref.compliance === "CICRA")
+                        .map((ref) => ref.referenceNumber)
+                        .join(", ") || "-"}
+                    </td>
+                    <td>
+                      {control.complianceReferences
+                        ?.filter((ref) => ref.compliance === "CIBIL")
+                        .map((ref) => ref.referenceNumber)
+                        .join(", ") || "-"}
+                    </td>
+
+                    <td>{control.controlName}</td>
+                    <td>{control.auditObjectiveSummary}</td>
+                    <td>
+                      <span
+                        className={
+                          "risk-pill " +
+                          (control.riskLevel === "critical"
+                            ? "risk-critical"
+                            : control.riskLevel === "high"
+                            ? "risk-high"
+                            : control.riskLevel === "medium"
+                            ? "risk-medium"
+                            : control.riskLevel === "low"
+                            ? "risk-low"
+                            : "")
+                        }
+                      >
+                        {control.riskLevel?.toUpperCase()}
+                      </span>
+                    </td>
+                    <td>{control.auditFrequency}</td>
+                    <td>
+                      {Array.isArray(control.departments)
+                        ? control.departments
+                            .map((d) => d.department)
+                            .join(", ")
+                        : "-"}
+                    </td>
+                    <td>
+                      {Array.isArray(control.departments)
+                        ? control.departments.map((d) => d.keyOwner).join(", ")
+                        : "-"}
+                    </td>
+                    <td>{control.keyEvidenceToBeVerified?.join(", ")}</td>
+                    <td>{control.evidenceAttached?.join(", ")}</td>
+                    <td>{control.auditorComment}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

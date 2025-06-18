@@ -1,0 +1,36 @@
+.searchSelect {
+  position: relative;
+  width: 100%;
+}
+
+.searchSelect input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.optionsList {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 4px;
+  border-radius: 4px;
+}
+
+.optionsList li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.optionsList li:hover {
+  background-color: #f0f0f0;
+}
+
+.noOptions {
+  padding: 8px;
+  color: #999;
+}
