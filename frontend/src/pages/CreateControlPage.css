@@ -1,0 +1,227 @@
+.create-control-form {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(44, 62, 80, 0.06);
+  padding: 16px 20px;
+  max-width: 780px;
+  width: 100%;
+  margin: 14px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+/* Title */
+.create-control-form h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2e3a59;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+/* Two-column grid layout */
+.create-control-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start; /* ensure vertical top-alignment */
+}
+
+/* Label */
+.create-control-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5e6c84;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Input fields */
+.create-control-form input[type="text"],
+.create-control-form select,
+.create-control-form textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d3d9e4;
+  border-radius: 6px;
+  background: #f5f7fa;
+  font-size: 0.9rem;
+  color: #2e3a59;
+  box-sizing: border-box;
+}
+
+/* Focus styles */
+.create-control-form input:focus,
+.create-control-form select:focus,
+.create-control-form textarea:focus {
+  border-color: #7c6fd1;
+  background: #ffffff;
+}
+
+/* Textarea adjustments */
+.create-control-form textarea {
+  min-height: 50px;
+  resize: vertical;
+}
+
+/* Add/Remove input row styling */
+.create-control-array-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.add-btn,
+.remove-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-left: 8px; /* optional spacing */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn:focus,
+.remove-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.add-btn:hover,
+.remove-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Submit Button */
+.create-control-form button[type="submit"] {
+  background: linear-gradient(90deg, #3949ab, #1976d2);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  letter-spacing: 0.4px;
+  margin-top: 8px;
+}
+
+.create-control-form button[type="submit"]:hover {
+  background: linear-gradient(90deg, #1976d2, #3949ab);
+}
+
+/* Department and Key Owner - Title Label */
+.departments-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Title label above the input pairs */
+.departments-wrapper .section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5e6c84;
+  margin-bottom: 4px;
+  display: block;
+  width: 100%;
+}
+
+/* Row with Department + Key Owner + Buttons */
+.department-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Input styles (reuse your theme) */
+.department-row input[type="text"] {
+  flex: 1 1 45%;
+  padding: 6px 8px;
+  border: 1px solid #d3d9e4;
+  border-radius: 6px;
+  background: #f5f7fa;
+  font-size: 0.9rem;
+  color: #2e3a59;
+  box-sizing: border-box;
+}
+
+/* Buttons (Add / Remove icons) */
+.department-row .button-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.department-row .add-btn,
+.department-row .remove-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.department-row .add-btn:hover,
+.department-row .remove-btn:hover {
+  transform: scale(1.1);
+}
+
+.compliance-reference-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.compliance-select {
+  width: 50%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f4f6fb;
+  color: #333;
+  font-size: 14px;
+}
+
+.reference-select-wrapper {
+  width: 50%;
+}
+
+/* Mobile-friendly responsiveness */
+@media (max-width: 768px) {
+  .department-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .department-row input[type="text"] {
+    width: 100%;
+    flex: none;
+  }
+
+  .department-row .button-group {
+    justify-content: flex-end;
+  }
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .create-control-row {
+    grid-template-columns: 1fr;
+  }
+}

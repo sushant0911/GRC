@@ -1,0 +1,210 @@
+.category-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 44px 48px 36px 48px;
+  box-shadow: 0 6px 32px rgba(44,62,80,0.11), 0 2px 8px rgba(44,62,80,0.04);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.add-category-btn {
+  background: linear-gradient(90deg, #3949ab 60%, #1976d2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 36px;
+  font-weight: 700;
+  font-size: 1.12rem;
+  cursor: pointer;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.10);
+  transition: background 0.18s, box-shadow 0.18s;
+  letter-spacing: 0.5px;
+}
+.add-category-btn:hover {
+  background: linear-gradient(90deg, #1976d2 60%, #3949ab 100%);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.15);
+}
+
+.category-table-container {
+  margin-top: 24px;
+  overflow-x: auto;
+  background: #f7f9fc;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px rgba(44,62,80,0.06);
+  padding: 12px 0;
+}
+
+.category-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 1.12rem;
+  background: transparent;
+}
+.category-table th {
+  background: #e3e7fd;
+  color: #3949ab;
+  font-weight: 700;
+  padding: 18px 16px;
+  text-align: left;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  letter-spacing: 0.6px;
+  font-size: 1.11rem;
+}
+.category-table td {
+  padding: 16px 16px;
+  border-bottom: 1.5px solid #e3e7fd;
+  color: #283593;
+  background: #fff;
+  vertical-align: top;
+  font-size: 1.07rem;
+}
+.category-table tr:last-child td {
+  border-bottom: none;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44,62,80,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.popup-form {
+  height: 90%;
+  background: #fff;
+  border-radius: 16px;
+  padding: 38px 34px;
+  min-width: 500px;
+  box-shadow: 0 4px 24px rgba(44,62,80,0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.popup-form h3 {
+  margin-top: 0;
+  color: #3949ab;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  font-size: 1.25rem;
+}
+.popup-form form {
+  display: flex;
+  flex-direction: column;
+}
+.popup-form label {
+  font-weight: 600;
+  color: #3949ab;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 1.06rem;
+}
+.popup-form input,
+.popup-form textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.7px solid #e3e7fd;
+  border-radius: 9px;
+  margin-top: 4px;
+  font-size: 1.09em;
+  background: #f7f9fc;
+  color: #283593;
+  transition: border 0.18s;
+  box-sizing: border-box;
+  outline: none;
+}
+.popup-form input:focus,
+.popup-form textarea:focus {
+  border-color: #7c6fd1;
+  background: #fff;
+}
+
+.popup-actions {
+  /* border: 2px solid red; */
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: center; 
+  margin-top: 10px;
+  width: 100%;
+}
+
+.popup-actions button {
+  padding: 14px 48px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.09em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #3949ab;
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.icon-btn:hover {
+  background: #e3e7fd;
+}
+
+
+.popup-actions button[type="submit"] {
+  background: #3949ab;
+  color: #fff;
+}
+.popup-actions button[type="submit"]:hover {
+  background: #283593;
+}
+.popup-actions button[type="button"] {
+  margin-top: 32px;
+  background: #e3e7fd;
+  color: #3949ab;
+}
+.popup-actions button[type="button"]:hover {
+  background: #d1d9fa;
+}
+
+@media (max-width: 1200px) {
+  .category-page {
+    max-width: 99vw;
+    padding: 18px 2vw 14px 2vw;
+  }
+  .category-table th, .category-table td {
+    padding: 10px 6px;
+    font-size: 1rem;
+  }
+  .popup-form {
+    min-width: 95vw;
+    padding: 18px 8px;
+  }
+}
+@media (max-width: 700px) {
+  .category-page {
+    padding: 8px 2vw 8px 2vw;
+  }
+  .popup-form {
+    min-width: 99vw;
+    padding: 12px 2vw;
+  }
+}
