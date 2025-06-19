@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import "./ControlsPage.css";
 
 const ControlsPage = () => {
@@ -31,6 +32,15 @@ const ControlsPage = () => {
       <div style={{ textAlign: "center", marginTop: "40px" }}>Loading...</div>
     );
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/controls/${id}`);
+      navigate("/controls");
+    } catch (error) {
+      console.error("Failed to delete control:", error);
+      alert("Delete failed. Please try again.");
+    }
+  };  
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#f5f7fa" }}>
       <Sidebar />
@@ -78,12 +88,17 @@ const ControlsPage = () => {
                 <th>Key Evidence to be Verified</th>
                 <th>Evidence Attached</th>
                 <th>Auditor Comment</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {controls.map((control, idx) => {
-                console.log((control.complianceReferences?.find((f)=>f.compliance === "ISO"))?.referenceNumber);
-                
+                console.log(
+                  control.complianceReferences?.find(
+                    (f) => f.compliance === "ISO"
+                  )?.referenceNumber
+                );
+
                 return (
                   <tr
                     key={control._id || idx}
@@ -92,9 +107,11 @@ const ControlsPage = () => {
                     title="Click to edit"
                   >
                     <td>
-                      {(control?.complianceReferences?.find(
-                        (ref) => ref.compliance === "ISO"
-                      ))?.referenceNumber}
+                      {
+                        control?.complianceReferences?.find(
+                          (ref) => ref.compliance === "ISO"
+                        )?.controlNo
+                      }
                     </td>
                     <td>
                       {control.complianceReferences
@@ -145,6 +162,24 @@ const ControlsPage = () => {
                     <td>{control.keyEvidenceToBeVerified?.join(", ")}</td>
                     <td>{control.evidenceAttached?.join(", ")}</td>
                     <td>{control.auditorComment}</td>
+                    <td>
+                      <button
+                        className="icon-btn"
+                        title="Delete"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (
+                            window.confirm(
+                              "Are you sure you want to delete this control?"
+                            )
+                          ) {
+                            handleDelete(control._id);
+                          }
+                        }}
+                      >
+                        <FaTrash size={16} />
+                      </button>
+                    </td>
                   </tr>
                 );
               })}

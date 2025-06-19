@@ -18,12 +18,11 @@ const initialState = {
 
   complianceReferences: [
     {
-      compliance: "", // one of ['ISO', 'CICRA', 'CIBIL']
+      compliance: "", 
       controlNo: "",
       controlName: "",
     },
   ],
-  // selectedRefNumber: "",
 
   evidenceAttached: [""],
 
@@ -38,9 +37,8 @@ const plusIcon = (
     width="22"
     height="22"
     viewBox="0 0 24 24"
-    style={{ verticalAlign: "middle" }}
+    style={{ verticalAlign: "middle"}}
   >
-    <circle cx="12" cy="12" r="11" fill="#e3e7fd" />
     <path
       d="M12 8v8M8 12h8"
       stroke="#7c6fd1"
@@ -57,7 +55,6 @@ const minusIcon = (
     viewBox="0 0 24 24"
     style={{ verticalAlign: "middle" }}
   >
-    <circle cx="12" cy="12" r="11" fill="#f8d7da" />
     <path d="M8 12h8" stroke="#d32f2f" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
@@ -78,9 +75,16 @@ const CreateControlPage = () => {
   const [loading, setLoading] = useState(!!id);
   const [departments, setDepartments] = useState([]);
   const [compliance, setCompliance] = useState("");
-  const [editCompliance,setEditCompliance]=useState(-1);
+  const [editCompliance, setEditCompliance] = useState(-1);
   const [newPlus, setNewPlus] = useState(-1);
   console.log(form);
+
+  useEffect(() => {
+    if (!id) {
+      setForm(initialState);
+    }
+  }, [id]);
+
 
   // Fetch categories for the select field
   useEffect(() => {
@@ -141,8 +145,8 @@ const CreateControlPage = () => {
   // for adding new compliance-------------
 
   const handleAddComplianceRef = () => {
-    
-    const last = form.complianceReferences[form.complianceReferences.length - 1];
+    const last =
+      form.complianceReferences[form.complianceReferences.length - 1];
     if (last.compliance && last.controlNo) {
       setForm({
         ...form,
@@ -407,11 +411,10 @@ const CreateControlPage = () => {
 
           {/* Department - Key Owner ✅ */}
           <div className="departments-wrapper">
-            <label className="section-title">Departments and Key Owners</label>
+            <label>Department and Key Owner</label>
             {form.departments.map((dept, idx) => (
               <div className="department-row" key={idx}>
                 <div style={{ flex: 1 }}>
-                  <label>Department</label>
                   <select
                     name="department"
                     value={dept.department}
@@ -438,7 +441,6 @@ const CreateControlPage = () => {
                 </div>
 
                 <div style={{ flex: 1 }}>
-                  <label>Key Owner</label>
                   <input
                     type="text"
                     name="keyOwner"
@@ -453,7 +455,7 @@ const CreateControlPage = () => {
                   {idx === form.departments.length - 1 && (
                     <button
                       type="button"
-                      className="add-btn"
+                      className="plus-icon"
                       onClick={handleAddDepartment}
                       title="Add Department"
                     >
@@ -463,7 +465,7 @@ const CreateControlPage = () => {
                   {form.departments.length > 1 && (
                     <button
                       type="button"
-                      className="remove-btn"
+                      className="minus-icon"
                       onClick={() => handleRemoveDepartment(idx)}
                       title="Remove Department"
                     >
@@ -491,7 +493,7 @@ const CreateControlPage = () => {
               {idx === form.keyEvidenceToBeVerified.length - 1 && (
                 <button
                   type="button"
-                  className="add-btn"
+                  className="plus-icon"
                   onClick={() => handleAddArrayField("keyEvidenceToBeVerified")}
                   title="Add"
                 >
@@ -501,7 +503,7 @@ const CreateControlPage = () => {
               {form.keyEvidenceToBeVerified.length > 1 && (
                 <button
                   type="button"
-                  className="remove-btn"
+                  className="minus-icon"
                   onClick={() =>
                     handleRemoveArrayField("keyEvidenceToBeVerified", idx)
                   }
@@ -514,103 +516,118 @@ const CreateControlPage = () => {
           ))}
 
           {/* Compliance and Reference number */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: 22,
-            }}
-          >
+          <div className="compliance-reference-container">
             <label>Compliance & Reference Number</label>
-          </div>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <tbody>
+                {form.complianceReferences.map((pair, idx) => (
+                  <tr key={idx}>
+                    {/* Compliance Dropdown */}
+                    <td style={{ width: "35%" }}>
+                      <select
+                        name="compliance"
+                        value={pair.compliance}
+                        onChange={(e) => {
+                          const selectedValue = e.target.value;
+                          handleComplianceRefChange(
+                            idx,
+                            "compliance",
+                            selectedValue
+                          );
+                          setCompliance(selectedValue);
+                        }}
+                        required
+                        style={{ width: "100%" }}
+                      >
+                        <option value="">-- Compliance --</option>
+                        {complianceOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
 
-          {form.complianceReferences.map((pair, idx) => (
-            <div key={idx} style={{ marginBottom: "12px" }}>
-              <div
-                className="create-control-array-field"
-                style={{ display: "flex", gap: "10px", alignItems: "center" }}
-              >
-                <select
-                  name="compliance"
-                  value={pair.compliance}
-                  onChange={(e) => {
-                    const selectedValue = e.target.value;
-                    handleComplianceRefChange(idx, "compliance", selectedValue);
-                    setCompliance(selectedValue);
-                  }}
-                  required
-                  style={{ width: "50%" }}
-                >
-                  <option value="">-- Compliance --</option>
-                  {complianceOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-                {!id || editCompliance === idx  || idx === newPlus ? (
-                  <SearchSelect
-                    name="control"
-                    options={controlOptions}
-                    value={pair}
-                    onChange={(selectedOption) => {
-                      handleComplianceRefChange(
-                        idx,
-                        "compliance",
-                        form.complianceReferences[idx].compliance,
-                        selectedOption
-                      );
-                    }}
-                    getCompareKey={(val) =>
-                      compliance === "ISO"
-                        ? val?.isoControlRef
-                        : compliance === "CIBIL"
-                        ? val?.cibilRef
-                        : compliance === "CICRA"
-                        ? val?.cicraRef
-                        : ""
-                    }
-                  />
-                ) : (
-                  <>
-                    <p>{pair.controlName}</p>
-                    <button
-                      type="button"
-                      onClick={() => (
-                        setEditCompliance(idx),
-                        handleComplianceRefChange(
-                          idx,
-                          "compliance",
-                          pair.compliance
-                        ),
-                        setCompliance(pair.compliance)
+                    {/* Search Select */}
+                    <td style={{ width: "45%" }}>
+                      {!id || editCompliance === idx || idx === newPlus ? (
+                        <SearchSelect
+                          className="search-select"
+                          name="control"
+                          options={controlOptions}
+                          value={pair}
+                          onChange={(selectedOption) => {
+                            handleComplianceRefChange(
+                              idx,
+                              "compliance",
+                              form.complianceReferences[idx].compliance,
+                              selectedOption
+                            );
+                          }}
+                          getCompareKey={(val) =>
+                            compliance === "ISO"
+                              ? val?.isoControlRef
+                              : compliance === "CIBIL"
+                              ? val?.cibilRef
+                              : compliance === "CICRA"
+                              ? val?.cicraRef
+                              : ""
+                          }
+                        />
+                      ) : (
+                        <p className="fake-input">{pair.controlName}</p>
                       )}
-                    >
-                      Edit
-                    </button>
-                  </>
-                )}
-              </div>
+                    </td>
 
-              {/* Plus and Minus icons in the next line */}
-              <div style={{ marginTop: 8 }}>
-                {idx === form.complianceReferences.length - 1 && (
-                  <button type="button" onClick={()=>(handleAddComplianceRef(),setNewPlus(idx+1))}>
-                    {plusIcon}
-                  </button>
-                )}
-                {form.complianceReferences.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveComplianceRef(idx)}
-                  >
-                    {minusIcon}
-                  </button>
-                )}
-              </div>
+                    {/* Actions */}
+                    <td style={{ width: "0%" }}>
+                      <div className="compliance-actions">
+                        {(editCompliance === idx ||
+                          (idx !== newPlus && id)) && (
+                          <button
+                            className="compliance-edit-btn"
+                            type="button"
+                            onClick={() => {
+                              setEditCompliance(idx);
+                              handleComplianceRefChange(
+                                idx,
+                                "compliance",
+                                pair.compliance
+                              );
+                              setCompliance(pair.compliance);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+
+                        {form.complianceReferences.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveComplianceRef(idx)}
+                          >
+                            {minusIcon}
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="compliancePlusIcon">
+              <button
+                type="button"
+                onClick={() => {
+                  handleAddComplianceRef();
+                  setNewPlus(form.complianceReferences.length);
+                }}
+              >
+                {plusIcon}
+              </button>
             </div>
-          ))}
+          </div>
 
           {/* Evidence Attached */}
           <label>Evidence Attached</label>
@@ -625,7 +642,7 @@ const CreateControlPage = () => {
               {idx === form.evidenceAttached.length - 1 && (
                 <button
                   type="button"
-                  className="add-btn"
+                  className="plus-icon"
                   onClick={() => handleAddArrayField("evidenceAttached")}
                   title="Add"
                 >
@@ -635,7 +652,7 @@ const CreateControlPage = () => {
               {form.evidenceAttached.length > 1 && (
                 <button
                   type="button"
-                  className="remove-btn"
+                  className="minus-icon"
                   onClick={() =>
                     handleRemoveArrayField("evidenceAttached", idx)
                   }
