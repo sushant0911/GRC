@@ -16,7 +16,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/controls/create" element={<CreateControlPage />} />
         <Route path="/controls/create/:id" element={<CreateControlPage />} />
         <Route path="/control-category" element={<ControlCategory />} />
-
         <Route path="/compliance/iso" element={<ComplianceISO />} />
 
       </Routes>

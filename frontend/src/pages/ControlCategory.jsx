@@ -19,7 +19,7 @@ const ControlCategory = () => {
   }, []);
 
   const fetchCategories = async () => {
-    const res = await axios.get("/api/control-categories");
+    const res = await axios.get("http://localhost:3000/api/control-categories");
     setCategories(res.data);
   };
 
@@ -36,6 +36,7 @@ const ControlCategory = () => {
       } else {
         await axios.post("/api/control-categories", form);
       }
+
       setForm({ compliance: "", name: "", description: "" });
       setShowPopup(false);
       setEditId(null);

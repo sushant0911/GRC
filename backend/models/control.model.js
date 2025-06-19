@@ -32,10 +32,14 @@ const controlSchema = new mongoose.Schema({
         required: true,
         enum: ['ISO', 'CICRA', 'CIBIL'],
       },
-      referenceNumber: {
+      controlNo: {
         type: String,
         required: true,
       },
+      controlName : {
+        type: String,
+        required: true,
+      }
     }
   ],
   evidenceAttached: [{ type: String }],
