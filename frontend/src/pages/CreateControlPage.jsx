@@ -224,27 +224,6 @@ const CreateControlPage = () => {
     setForm({ ...form, [field]: arr });
   };
 
-  // CSV Upload Handler
-  // const handleCSVUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) return;
-  //   Papa.parse(file, {
-  //     header: true,
-  //     skipEmptyLines: true,
-  //     complete: async (results) => {
-  //       try {
-  //         await axios.post("http://localhost:3000/api/controls/bulk", {
-  //           controls: results.data,
-  //         });
-  //         alert("CSV uploaded and data added!");
-  //         navigate("/controls");
-  //       } catch (err) {
-  //         alert("Error uploading CSV");
-  //       }
-  //     },
-  //   });
-  // };
-
   // for adding new department
   const handleDepartmentChange = (e, index) => {
     const { name, value } = e.target;
@@ -454,7 +433,6 @@ const CreateControlPage = () => {
                 <div className="button-group">
                   {idx === form.departments.length - 1 && (
                     <button
-                      type="button"
                       className="plus-icon"
                       onClick={handleAddDepartment}
                       title="Add Department"
@@ -464,7 +442,6 @@ const CreateControlPage = () => {
                   )}
                   {form.departments.length > 1 && (
                     <button
-                      type="button"
                       className="minus-icon"
                       onClick={() => handleRemoveDepartment(idx)}
                       title="Remove Department"
@@ -492,7 +469,6 @@ const CreateControlPage = () => {
               />
               {idx === form.keyEvidenceToBeVerified.length - 1 && (
                 <button
-                  type="button"
                   className="plus-icon"
                   onClick={() => handleAddArrayField("keyEvidenceToBeVerified")}
                   title="Add"
@@ -502,7 +478,6 @@ const CreateControlPage = () => {
               )}
               {form.keyEvidenceToBeVerified.length > 1 && (
                 <button
-                  type="button"
                   className="minus-icon"
                   onClick={() =>
                     handleRemoveArrayField("keyEvidenceToBeVerified", idx)
@@ -586,7 +561,6 @@ const CreateControlPage = () => {
                           (idx !== newPlus && id)) && (
                           <button
                             className="compliance-edit-btn"
-                            type="button"
                             onClick={() => {
                               setEditCompliance(idx);
                               handleComplianceRefChange(
@@ -603,7 +577,7 @@ const CreateControlPage = () => {
 
                         {form.complianceReferences.length > 1 && (
                           <button
-                            type="button"
+                            className="minus-icon"
                             onClick={() => handleRemoveComplianceRef(idx)}
                           >
                             {minusIcon}
@@ -618,7 +592,7 @@ const CreateControlPage = () => {
 
             <div className="compliancePlusIcon">
               <button
-                type="button"
+                className="plus-icon"
                 onClick={() => {
                   handleAddComplianceRef();
                   setNewPlus(form.complianceReferences.length);
@@ -641,7 +615,6 @@ const CreateControlPage = () => {
               />
               {idx === form.evidenceAttached.length - 1 && (
                 <button
-                  type="button"
                   className="plus-icon"
                   onClick={() => handleAddArrayField("evidenceAttached")}
                   title="Add"
@@ -651,7 +624,6 @@ const CreateControlPage = () => {
               )}
               {form.evidenceAttached.length > 1 && (
                 <button
-                  type="button"
                   className="minus-icon"
                   onClick={() =>
                     handleRemoveArrayField("evidenceAttached", idx)

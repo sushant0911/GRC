@@ -1,7 +1,6 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./ISO.css"
+import "./ISO.css";
 
 const ISO = () => {
   const editIcon = (
@@ -26,33 +25,28 @@ const ISO = () => {
     controlName: "",
     isoControlRef: "",
   });
-  const [popupCategory, setPopupCategory] = useState("");
-  const [collapsed, setCollapsed] = useState({});
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
-    axios.get("/api/control-categories").then((res) => setCategories(res.data));
-    axios.get("/api/compliance-iso").then((res) => setIsoCompliances(res.data));
+    fetchData();
   }, []);
 
-  const grouped = categories.map((cat) => ({
-    ...cat,
-    controls: isoCompliances.filter((iso) => {
-      if (typeof iso.category === "object" && iso.category !== null) {
-        return iso.category._id === cat._id;
-      }
-      return iso.category === cat._id;
-    }),
-  }));
+  const fetchData = async () => {
+    const [catRes, isoRes] = await Promise.all([
+      axios.get("/api/control-categories"),
+      axios.get("/api/compliance-iso"),
+    ]);
+    setCategories(catRes.data);
+    setIsoCompliances(isoRes.data);
+  };
 
   const handleEdit = (ctrl) => {
-    setEditingId(ctrl._id); 
+    setEditingId(ctrl._id);
     setNewISO({
-      category: ctrl.category._id || ctrl.category,
+      category: ctrl.category?._id || ctrl.category,
       controlName: ctrl.controlName,
       isoControlRef: ctrl.isoControlRef,
     });
-    setPopupCategory(ctrl.category._id || ctrl.category);
     setShowPopup(true);
   };
 
@@ -60,8 +54,7 @@ const ISO = () => {
     if (window.confirm("Are you sure you want to delete this control?")) {
       try {
         await axios.delete(`/api/compliance-iso/${id}`);
-        const res = await axios.get("/api/compliance-iso");
-        setIsoCompliances(res.data);
+        fetchData();
       } catch (err) {
         console.error("Delete failed:", err);
       }
@@ -82,181 +75,129 @@ const ISO = () => {
       }
       setShowPopup(false);
       setNewISO({ category: "", controlName: "", isoControlRef: "" });
-      setPopupCategory("");
       setEditingId(null);
-
-      // Refresh list
-      const res = await axios.get("/api/compliance-iso");
-      setIsoCompliances(res.data);
+      fetchData();
     } catch (err) {
       console.error("Error submitting form:", err);
     }
   };
 
-  const openPopupForCategory = (catId) => {
-    setPopupCategory(catId);
-    setNewISO({ ...newISO, category: catId });
-    setShowPopup(true);
-  };
-
-  const toggleCollapse = (catId) => {
-    setCollapsed((prev) => ({ ...prev, [catId]: !prev[catId] }));
-  };
-
   return (
-    <div style={{ flex: 1 }}>
-      <div className="compliance-iso-container">
-        <div className="compliance-iso-header">ISO Controls by Category</div>
-        <button
-          className="compliance-iso-add-btn"
-          onClick={() => {
-            setShowPopup(true);
-            setPopupCategory("");
-          }}
-        >
-          + Add ISO Compliance
+    <div className="iso-container">
+      <div className="iso-header-wrapper">
+        <div className="iso-header">ISO Controls</div>
+        <button className="iso-add-btn" onClick={() => setShowPopup(true)}>
+          + Add ISO Control
         </button>
-
-        {grouped.map((cat) => (
-          <div className="compliance-iso-category" key={cat._id}>
-            <div
-              className="compliance-iso-category-header"
-              onClick={() => toggleCollapse(cat._id)}
-              aria-expanded={!collapsed[cat._id]}
-            >
-              <span className="category-name">{cat.name}</span>
-              <span
-                className="category-actions"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  className="compliance-iso-create-btn"
-                  type="button"
-                  onClick={() => openPopupForCategory(cat._id)}
-                >
-                  + Create ISO Control
-                </button>
-              </span>
-            </div>
-
-            {!collapsed[cat._id] && (
-              <div className="compliance-iso-table-wrapper">
-                {cat.controls.length ? (
-                  <table className="compliance-iso-table">
-                    <thead>
-                      <tr>
-                        <th>Control Name</th>
-                        <th>Reference Number</th>
-                        <th>Action</th> 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cat.controls.map((ctrl) => (
-                        <tr key={ctrl._id}>
-                          <td>{ctrl.controlName}</td>
-                          <td>{ctrl.isoControlRef}</td>
-                          <td>
-                            <button
-                              onClick={() => handleEdit(ctrl)}
-                              title="Edit"
-                              style={{
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                                marginRight: "8px",
-                              }}
-                            >
-                              {editIcon}
-                            </button>
-                            <button
-                              onClick={() => handleDelete(ctrl._id)}
-                              title="Delete"
-                              style={{
-                                background: "none",
-                                border: "none",
-                                cursor: "pointer",
-                              }}
-                            >
-                              {deleteIcon}
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                ) : (
-                  <div className="compliance-iso-empty">
-                    No ISO controls in this category.
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {showPopup && (
-          <div className="compliance-iso-popup-overlay">
-            <form
-              className="compliance-iso-popup-form"
-              onSubmit={handlePopupSubmit}
-            >
-              <h3>Add ISO Compliance</h3>
-              <label>
-                Category
-                <select
-                  name="category"
-                  value={popupCategory || newISO.category}
-                  onChange={handlePopupChange}
-                  required
-                  disabled={!!popupCategory}
-                >
-                  <option value="">-- Select Category --</option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Control Name
-                <input
-                  type="text"
-                  name="controlName"
-                  value={newISO.controlName}
-                  onChange={handlePopupChange}
-                  required
-                />
-              </label>
-              <label>
-                ISO Reference Number
-                <input
-                  type="text"
-                  name="isoControlRef"
-                  value={newISO.isoControlRef}
-                  onChange={handlePopupChange}
-                  required
-                />
-              </label>
-              <div className="compliance-iso-popup-actions">
-                <button
-                  type="button"
-                  className="compliance-iso-popup-cancel"
-                  onClick={() => {
-                    setShowPopup(false);
-                    setPopupCategory("");
-                  }}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="compliance-iso-popup-save">
-                  {editingId ? "Update" : "Save"}
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
       </div>
+
+      <div className="iso-table-wrapper">
+        <table className="iso-table">
+          <thead>
+            <tr>
+              <th>ISO Reference</th>
+              <th>Control Name</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {isoCompliances.map((ctrl) => (
+              <tr key={ctrl._id}>
+                <td>{ctrl.isoControlRef}</td>
+                <td>{ctrl.controlName}</td>
+                <td>
+                  {typeof ctrl.category === "object" && ctrl.category !== null
+                    ? ctrl.category.name
+                    : categories.find((c) => c._id === ctrl.category)?.name ||
+                      "Unknown"}
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleEdit(ctrl)}
+                    title="Edit"
+                    className="icon-btn"
+                  >
+                    {editIcon}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(ctrl._id)}
+                    title="Delete"
+                    className="icon-btn"
+                  >
+                    {deleteIcon}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {showPopup && (
+        <div className="iso-popup-overlay">
+          <form className="iso-popup-form" onSubmit={handlePopupSubmit}>
+            <h3>{editingId ? "Edit ISO Control" : "Add ISO Control"}</h3>
+            <label>
+              ISO Control Ref
+              <input
+                type="text"
+                name="isoControlRef"
+                value={newISO.isoControlRef}
+                onChange={handlePopupChange}
+                required
+              />
+            </label>
+            <label>
+              Control Name
+              <input
+                type="text"
+                name="controlName"
+                value={newISO.controlName}
+                onChange={handlePopupChange}
+                required
+              />
+            </label>
+
+            <label>
+              Category
+              <select
+                name="category"
+                value={newISO.category}
+                onChange={handlePopupChange}
+                required
+              >
+                <option value="">-- Select Category --</option>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="iso-popup-actions">
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={() => {
+                  setShowPopup(false);
+                  setNewISO({
+                    category: "",
+                    controlName: "",
+                    isoControlRef: "",
+                  });
+                  setEditingId(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button type="submit" className="save-btn">
+                {editingId ? "Update" : "Save"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

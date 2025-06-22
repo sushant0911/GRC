@@ -165,13 +165,16 @@
   margin-right: 5px;
 }
 
-.plus-icon {
+.plus-icon, .minus-icon {
   margin-bottom: 7px;
+  border: none;
+  cursor: pointer;
 }
 
-.minus-icon {
-  margin-bottom: 7px;
+.plus-icon:hover, .minus-icon:hover {
+  transform: scale(1.2);
 }
+
 
 .fake-input {
   padding: 6px;
