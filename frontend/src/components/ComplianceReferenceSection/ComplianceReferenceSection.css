@@ -1,0 +1,71 @@
+.compliance-reference-container {
+  margin-top: 22px;
+  width: 100%;
+}
+
+.compliance-reference-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compliance-reference-container td {
+  padding: 4px 0;
+}
+
+.compliance-reference-container select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.compliance-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.8rem;
+}
+
+.compliance-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.compliance-edit-btn {
+  background: none;
+  border: none;
+  color: #7c6fd1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.compliance-edit-btn:hover {
+  text-decoration: underline;
+}
+
+.fake-input {
+  padding: 8px;
+  margin: 0;
+  border: 1px solid transparent;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.compliancePlusIcon {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 2rem;
+}
+
+.plus-icon {
+   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}

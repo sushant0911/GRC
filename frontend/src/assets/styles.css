@@ -38,7 +38,7 @@ form {
 
 label {
   margin-top: 22px;
-  margin-bottom: 8px;
+  margin-bottom: 80px;
   font-weight: 600;
   color: var(--primary-dark);
   letter-spacing: 0.5px;
@@ -52,7 +52,7 @@ select {
   padding: 10px 12px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-bottom: 8px;
   background: #f7f9fc;
   color: var(--text);
@@ -294,7 +294,7 @@ button[type="submit"]:hover {
 }
 
 .section-title {
-    font-size: 1.3rem;
+    /* font-size: 1.3rem; */
     font-weight: 600;
 }
 

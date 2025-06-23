@@ -1,0 +1,40 @@
+.dynamic-array-field {
+  width: 100%;
+}
+
+.array-field-row {
+  display: flex;
+  gap: 12px;
+  /* margin-bottom: 12px; */
+}
+
+.array-field-row input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 6px;
+}
+
+.array-field-actions {
+  display: flex;
+  align-items: center;
+}
+
+.plus-icon,
+.minus-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.plus-icon:hover, .minus-icon:hover{
+  background-color: #f8f9fa;
+}
