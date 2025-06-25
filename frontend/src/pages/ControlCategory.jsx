@@ -43,7 +43,7 @@ const ControlCategory = () => {
     e.preventDefault();
     try {
       if (editId) {
-        await axios.put(`/api/control-categories/${editId}`, form);
+        const res = await axios.put(`/api/control-categories/${editId}`, form);
       } else {
         await axios.post("/api/control-categories", form);
       }
@@ -63,7 +63,7 @@ const ControlCategory = () => {
       <div style={{ flex: 1 }}>
         <div className="category-page">
           <div className="category-header">
-            <h2>Control Categories</h2>
+            <h3>Control Categories</h3>
             <button
               className="add-category-btn"
               onClick={() => {

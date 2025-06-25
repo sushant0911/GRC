@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 
 const controlCategorySchema = new mongoose.Schema({
-  compliance: {
-    type: String,
-    required: true,
-    enum: ['ISO', 'CICRA', 'CIBIL']
+  name: { 
+    type: String, 
+    required: true, 
+    unique: true,
+    trim: true
   },
-  name: { type: String, required: true, unique: true },
-  description: { type: String }
-});
+  description: { 
+    type: String,
+    trim: true
+  }
+}, { timestamps: true });
 
 export default mongoose.model('ControlCategory', controlCategorySchema);

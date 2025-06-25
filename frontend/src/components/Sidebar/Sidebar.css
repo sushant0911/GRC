@@ -163,6 +163,7 @@
   padding: 0;
   height: 70%;
   width: 90%;
+  font-size: 0.8rem;
 }
 
 .sidebar-sublink {
@@ -172,7 +173,7 @@
   color: #283593;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.07rem;
+  /* font-size: 1.07rem; */
   border-radius: 8px;
   transition: background 0.13s, color 0.13s;
   margin: 0;

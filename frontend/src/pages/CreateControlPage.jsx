@@ -18,16 +18,7 @@ const CreateControlPage = () => {
       background: '#f5f7fa'
     }}>
       <Sidebar />
-      <div style={{
-        flex: 1,
-        padding: '32px 24px',
-        minWidth: 0,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <ControlForm id={id} onSuccess={handleSuccess} />
-      </div>
+      <ControlForm id={id} onSuccess={handleSuccess} />
     </div>
   );
 };

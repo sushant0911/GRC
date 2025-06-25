@@ -1,0 +1,206 @@
+.compliance-controls-page {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.compliance-controls-page .compliance-controls-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* border: 2px solid red; */
+}
+
+.compliance-controls-page .controls-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.compliance-controls-page .controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 16px 0;
+}
+
+.compliance-controls-page .controls-header h3 {
+  color: var(--primary);
+}
+
+.compliance-controls-page .controls-add-btn {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.compliance-controls-page .controls-add-btn:hover {
+  background: linear-gradient(90deg, var(--accent) 60%, var(--primary) 100%);
+}
+
+.compliance-controls-page .controls-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 40px auto;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.compliance-controls-page .controls-table th,
+.compliance-controls-page .controls-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.compliance-controls-page .controls-table th {
+  background: #e3e7fd;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.compliance-controls-page .controls-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.compliance-controls-page .description-cell {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compliance-controls-page .controls-table tr:last-child td {
+  border-bottom: none;
+}
+
+.compliance-controls-page .icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-right: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.compliance-controls-page .icon-btn:hover {
+  opacity: 1;
+}
+
+.compliance-controls-page .controls-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.compliance-controls-page .controls-popup-form {
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.compliance-controls-page .controls-popup-form h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #2d3748;
+}
+
+.compliance-controls-page .controls-popup-form label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.compliance-controls-page .controls-popup-form input,
+.compliance-controls-page .controls-popup-form textarea,
+.compliance-controls-page .controls-popup-form select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.compliance-controls-page .controls-popup-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.compliance-controls-page .controls-popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.compliance-controls-page .cancel-btn {
+  background-color: #e2e8f0;
+  color: #4a5568;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.compliance-controls-page .cancel-btn:hover {
+  background-color: #cbd5e0;
+}
+
+.compliance-controls-page .save-btn {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.compliance-controls-page .save-btn:hover {
+  background-color: #3182ce;
+}
+
+.compliance-controls-page .loading {
+  padding: 20px;
+  text-align: center;
+  color: #4a5568;
+}
+
+.compliance-controls-page .no-controls {
+  padding: 20px;
+  text-align: center;
+  color: #718096;
+  font-style: italic;
+}
+
+.compliance-controls-page .not-found {
+  padding: 20px;
+  text-align: center;
+  color: #e53e3e;
+}
+

@@ -40,7 +40,7 @@ const ControlsPage = () => {
   if (loading) return <div className="page-loading">Loading...</div>;
 
   return (
-    <div className="page-wrapper">
+    <div className="controls-page-wrapper">
       <Sidebar />
       <div className="page-content">
         <ControlsHeader onCreate={() => navigate("/controls/create")} />

@@ -36,15 +36,13 @@ const ControlForm = ({ id, onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
   const [error, setError] = useState(null);
-
-  // Data fetching effects
+  console.log(formData);
+  
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        
-        // Fetch categories
         const [categoriesRes, deptRes] = await Promise.all([
           axios.get("/api/control-categories"),
           axios.get("https://beatsdemo.squareyards.com/api/Zing/GetDepartment", {
@@ -57,7 +55,6 @@ const ControlForm = ({ id, onSuccess }) => {
         setCategories(categoriesRes.data);
         setDepartments(deptRes.data.Data || []);
 
-        // Fetch control data if editing
         if (id) {
           const controlRes = await axios.get(`http://localhost:3000/api/controls/${id}`);
           setFormData(controlRes.data);
@@ -73,7 +70,6 @@ const ControlForm = ({ id, onSuccess }) => {
     fetchInitialData();
   }, [id]);
 
-  // Helper function to map control options
   const mapControlOption = (ctrl, complianceType) => {
     if (!ctrl) return null;
     
@@ -166,7 +162,7 @@ const ControlForm = ({ id, onSuccess }) => {
     }
   };
 
-  const handleComplianceRefChange = async (idx, field, value, selectedOption) => {
+  const handleComplianceRefChange = async (idx, field, value, selectedOption) => {``
     const updatedRefs = formData.complianceReferences.map((ref, i) =>
       i === idx
         ? {
@@ -174,8 +170,8 @@ const ControlForm = ({ id, onSuccess }) => {
             [field]: value,
             ...(field === "compliance" && selectedOption
               ? {
-                  controlNo: selectedOption.refValue || "",
-                  controlName: selectedOption.label || "",
+                  controlNo: selectedOption.value.controlRef || "",
+                  controlName: selectedOption.value.controlName || "",
                 }
               : {}),
           }
@@ -184,33 +180,33 @@ const ControlForm = ({ id, onSuccess }) => {
 
     setFormData((prev) => ({ ...prev, complianceReferences: updatedRefs }));
 
-    if (field === "compliance") {
-      const normValue = value.toUpperCase();
-      setCompliance(normValue);
+    // if (field === "compliance") {
+    //   const normValue = value.toUpperCase();
+    //   setCompliance(normValue);
       
-      try {
-        let endpoint;
-        switch (normValue) {
-          case "ISO":
-            endpoint = "/api/compliance-iso";
-            break;
-          case "CIBIL":
-            endpoint = "/api/compliance-cibil";
-            break;
-          case "CICRA":
-            endpoint = "/api/compliance-cicra";
-            break;
-          default:
-            return;
-        }
+    //   try {
+    //     let endpoint;
+    //     switch (normValue) {
+    //       case "ISO":
+    //         endpoint = "/api/compliance-iso";
+    //         break;
+    //       case "CIBIL":
+    //         endpoint = "/api/compliance-cibil";
+    //         break;
+    //       case "CICRA":
+    //         endpoint = "/api/compliance-cicra";
+    //         break;
+    //       default:
+    //         return;
+    //     }
 
-        const res = await axios.get(endpoint);
-        setControls(res.data || []);
-      } catch (err) {
-        console.error("Error fetching controls:", err);
-        setControls([]);
-      }
-    }
+    //     const res = await axios.get(endpoint);
+    //     setControls(res.data || []);
+    //   } catch (err) {
+    //     console.error("Error fetching controls:", err);
+    //     setControls([]);
+    //   }
+    // }
   };
 
   // Form submission
@@ -241,7 +237,6 @@ const ControlForm = ({ id, onSuccess }) => {
       setIsSubmitting(false);
       return;
     }
-
     try {
       const url = id 
         ? `http://localhost:3000/api/controls/${id}`

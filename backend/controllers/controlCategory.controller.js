@@ -12,22 +12,13 @@ export const getControlCategory = async (req, res) => {
 export const createControlCategory = async (req, res) => {
   try {
     console.log("Incoming POST body:", req.body); // Debugging line
-    const { compliance, name, description } = req.body;
+    const { name, description } = req.body;
 
-    const category = new ControlCategory({ compliance, name, description });
+    const category = new ControlCategory({ name, description });
     await category.save();
     res.status(201).json(category);
   } catch (error) {
-    console.error("Create category error:", error.message); // Debugging line
-
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({ error: error.message });
-    }
-
-    if (error.code === 11000) {
-      return res.status(400).json({ error: "Category name must be unique." });
-    }
-
+    console.error("Create category error:", error.message); 
     res.status(400).json({ error: "Bad Request" });
   }
 };
@@ -35,10 +26,10 @@ export const createControlCategory = async (req, res) => {
 export const updateControlCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const { compliance, name, description } = req.body;
+    const { name, description } = req.body;
     const updated = await ControlCategory.findByIdAndUpdate(
       id,
-      { compliance, name, description },
+      { name, description },
       { new: true, runValidators: true }
     );
     if (!updated) return res.status(404).json({ error: "Category not found" });

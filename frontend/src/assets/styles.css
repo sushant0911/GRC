@@ -102,7 +102,6 @@ button[type="submit"] {
   color: #fff;
   border: none;
   border-radius: var(--radius);
-  /* padding: 15px 0; */
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);

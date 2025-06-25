@@ -1,14 +1,34 @@
 import ControlsTableRow from "./ControlsTableRow";
+import { useEffect, useState } from "react";
 
 const ControlsTable = ({ controls, onDelete }) => {
+  const [complianceDisplayNames, setComplianceDisplayNames] = useState([]);
+
+  useEffect(() => {
+    const fetchComplianceNames = async () => {
+      try {
+        const response = await fetch('/api/compliances/display-names');
+        const data = await response.json();
+        if (data.success) {
+          setComplianceDisplayNames(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching compliance names:', error);
+      }
+    };
+
+    fetchComplianceNames();
+  }, []);
+
   return (
     <div className="table-wrapper">
       <table className="controls-table">
         <thead>
           <tr>
-            <th>ISO 27001:2022</th>
-            <th>CICRA</th>
-            <th>CIBIL</th>
+            {complianceDisplayNames.map((compliance) => (
+              <th key={compliance.name}>{compliance.displayName}</th>
+            ))}
+            
             <th>Control Name</th>
             <th>Audit Objective Summary</th>
             <th>Risk Level</th>
@@ -26,6 +46,7 @@ const ControlsTable = ({ controls, onDelete }) => {
             <ControlsTableRow
               key={control._id || idx}
               control={control}
+              compliances={complianceDisplayNames}
               onDelete={onDelete}
             />
           ))}

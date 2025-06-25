@@ -2,23 +2,23 @@
   margin-top: 22px;
 }
 
-.section-title {
+.department-section .section-title {
   font-size: 0.8rem;
 }
 
-.department-row {
+.department-section .department-row {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   align-items: center;
   gap: 1rem;
 }
 
-.form-group {
+.department-section .form-group {
   font-size: 0.8rem;
 }
 
-.form-select,
-.form-input {
+.department-section   .form-select,
+.department-section .form-input {
   width: 100%;
   height: 100%;
   padding: 0.6rem 0.75rem;

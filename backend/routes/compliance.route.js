@@ -1,16 +1,33 @@
-import express from "express";
+import express from 'express';
 import {
-  getComplianceItems,
-  createComplianceItem,
-  updateComplianceItem,
-  deleteComplianceItem,
-} from "../controllers/compliance.controller.js";
+  getComplianceDisplayNames,
+  getCompliances,
+  getCompliance,
+  addCompliance,
+  updateCompliance,
+  deleteCompliance,
+  getControls,
+  getControl,
+  addControl,
+  updateControl,
+  deleteControl
+} from '../controllers/compliance.controller.js';
 
 const router = express.Router();
 
-router.get("/:type", getComplianceItems);
-router.post("/:type", createComplianceItem);
-router.put("/:type/:id", updateComplianceItem);
-router.delete("/:type/:id", deleteComplianceItem);
+// Compliance
+router.get('/display-names', getComplianceDisplayNames);
+router.get('/', getCompliances); 
+router.post('/', addCompliance); 
+router.get('/:name', getCompliance); 
+router.put('/:name', updateCompliance);
+router.delete('/:name', deleteCompliance); 
+
+// Control 
+router.get('/:name/controls', getControls); 
+router.post('/:name/controls', addControl); 
+router.get('/:name/controls/:controlId', getControl); 
+router.put('/:name/controls/:controlId', updateControl); 
+router.delete('/:name/controls/:controlId', deleteControl); 
 
 export default router;

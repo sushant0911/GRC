@@ -1,6 +1,6 @@
 import "./RiskAndFrequencyRow.css";
 
-const riskLevels = ["low", "medium", "high", "critical"];
+const riskLevels = ["Low", "Medium", "High", "Critical"];
 const auditFrequencies = ["Quarterly", "Half-Yearly", "Yearly"];
 
 const RiskAndFrequencyRow = ({ form, onChange }) => {

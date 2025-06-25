@@ -1,0 +1,140 @@
+/* Main Layout */
+.compliance-page-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.compliance-page-container .content-container {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.compliance-page-container .page-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.compliance-page-container .section-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--primary-dark);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: start;
+  
+}
+
+.compliance-page-container .compliance-form-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 70%;
+}
+
+/* Form Structure */
+.compliance-page-container .compliance-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+
+.compliance-page-container .form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1.5rem;
+}
+
+/* Form Elements */
+.compliance-page-container .form-group {
+  display: flex;
+  flex-direction: column;
+  
+  width: 100%;
+}
+
+.compliance-page-container .form-group label {
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+}
+
+.compliance-page-container .form-input {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.compliance-page-container .form-input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.compliance-page-container .form-hint {
+  color: #718096;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.compliance-page-container .btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.compliance-page-container .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.compliance-page-container .alert-error {
+  padding: 1rem;
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #e53e3e;
+  font-size: 0.875rem;
+}
+
+.compliance-page-container .spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .compliance-form-container {
+    padding: 1.5rem;
+  }
+}

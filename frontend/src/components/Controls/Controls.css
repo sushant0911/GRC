@@ -1,4 +1,4 @@
-.risk-pill {
+.controls-page-wrapper .risk-pill {
   display: inline-block;
   padding: 2px 16px;
   border-radius: 16px;
@@ -9,50 +9,50 @@
   margin: 0 auto;
 }
 
-.risk-critical {
+.controls-page-wrapper .risk-critical {
   background: #fdeaea;
   color: #ff3232;
 }
 
-.risk-high {
+.controls-page-wrapper .risk-high {
   background: #fdeaea;
-  color: #d37e2f;
+  color: #ff7b00;
 }
 
-.risk-medium {
+.controls-page-wrapper.risk-medium {
   background: #fff6e0;
-  color: #f9d625;
+  color: #e1ff00;
 }
 
-.risk-low {
+.controls-page-wrapper .risk-low {
   background: #e6f7f2;
-  color: #26a69a;
+  color: #37c261;
 }
 
-.page-wrapper {
+.controls-page-wrapper {
   display: flex;
   min-height: 100vh;
   background: var(--background);
 }
 
-.page-content {
+.controls-page-wrapper .page-content {
   flex: 1;
   padding: 32px 24px;
   min-width: 0;
 }
 
-.controls-header {
+.controls-page-wrapper .controls-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 24px 0 16px 0;
 }
 
-.controls-header h2 {
+.controls-page-wrapper .controls-header h3 {
   color: var(--primary-dark);
 }
 
-.create-control-btn {
+.controls-page-wrapper .create-control-btn {
   background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
   color: #fff;
   border: none;
@@ -64,27 +64,27 @@
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
 }
 
-.table-wrapper {
+.controls-page-wrapper .table-wrapper {
   max-width: 98vw;
   overflow-x: auto;
   margin: 0 auto;
 }
 
-.icon-btn {
+.controls-page-wrapper .icon-btn {
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text-light);
 }
 
-.page-loading {
+.controls-page-wrapper .page-loading {
   text-align: center;
   margin-top: 40px;
   font-size: 1.1rem;
   color: var(--primary-dark);
 }
 
-.controls-table {
+.controls-page-wrapper .controls-table {
   width: 100%;
   border-collapse: collapse;
   margin: 40px auto;
@@ -94,20 +94,20 @@
   overflow: hidden;
 }
 
-.controls-table th,
-.controls-table td {
+.controls-page-wrapper .controls-table th,
+.controls-page-wrapper .controls-table td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
   text-align: left;
 }
 
-.controls-table th {
+.controls-page-wrapper .controls-table th {
   background: #e3e7fd;
   color: var(--primary-dark);
   font-weight: 600;
 }
 
-.controls-table tr:last-child td {
+.controls-page-wrapper .controls-table tr:last-child td {
   border-bottom: none;
 }
 

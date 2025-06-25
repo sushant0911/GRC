@@ -1,9 +1,25 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const ComplianceSchema = new mongoose.Schema({
-  complianceType: { type: String, required: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "ControlCategory", required: true },
-  fields: { type: Map, of: String, required: true }, 
-});
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    uppercase: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 20
+  },
+  displayName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  controls: {
+    type: Array,
+    default: [] 
+  }
+}, { timestamps: true });
 
-export default mongoose.model("Compliance", ComplianceSchema);
+const Compliance = mongoose.model('Compliance', ComplianceSchema);
+export default Compliance;

@@ -41,8 +41,9 @@ const SearchSelect = ({
   }, []);
 
   useEffect(() => {
+    console.log(options);
     const selected = options.find(
-      (opt) => getCompareKey(opt.value) === getCompareKey(value)
+      (opt) => (opt.value) === value
     );
     if (selected) {
       setSearchTerm(selected.label);
@@ -73,7 +74,7 @@ const SearchSelect = ({
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (
               <li
-                key={getCompareKey(option.value)}
+                key={(option.value)}
                 onClick={() => handleSelect(option)}
               >
                 {option.label}

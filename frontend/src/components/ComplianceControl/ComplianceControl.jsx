@@ -1,43 +1,57 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaTrash, FaEdit  } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import "./ComplianceControl.css";
 
-const ComplianceControl = ({ title, apiBasePath, fields }) => {
+const ComplianceControl = ({ complianceName, apiBasePath, fields }) => {
   const [categories, setCategories] = useState([]);
-  const [items, setItems] = useState([]);
+  const [controls, setControls] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [complianceName]);
 
   const fetchData = async () => {
-    const [catRes, dataRes] = await Promise.all([
-      axios.get("/api/control-categories"),
-      axios.get(apiBasePath),
-    ]);
-    setCategories(catRes.data);
-    setItems(dataRes.data);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const [catRes, controlsRes] = await Promise.all([
+        axios.get("/api/control-categories"),
+        axios.get(`${apiBasePath}/${complianceName.toLowerCase()}/controls`)
+      ]);
+      setCategories(catRes.data);
+      setControls(controlsRes.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to fetch data");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleEdit = (item) => {
-    setEditingId(item._id);
+  const handleEdit = (control) => {
+    setEditingId(control._id);
     const updatedForm = {};
     fields.forEach((f) => {
-      updatedForm[f.name] = item[f.name];
+      updatedForm[f.name] = control[f.name];
     });
-    updatedForm.category = item.category?._id || item.category;
+    updatedForm.category = control.category?._id || control.category;
     setFormData(updatedForm);
     setShowPopup(true);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this control?")) {
-      await axios.delete(`${apiBasePath}/${id}`);
-      fetchData();
+      try {
+        await axios.delete(`${apiBasePath}/${complianceName.toLowerCase()}/controls/${id}`);
+        fetchData();
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to delete control");
+      }
     }
   };
 
@@ -47,74 +61,112 @@ const ComplianceControl = ({ title, apiBasePath, fields }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      await axios.put(`${apiBasePath}/${editingId}`, formData);
-    } else {
-      await axios.post(apiBasePath, formData);
+    try {
+      if (editingId) {
+        await axios.put(
+          `${apiBasePath}/${complianceName.toLowerCase()}/controls/${editingId}`,
+          formData
+        );
+      } else {
+        await axios.post(
+          `${apiBasePath}/${complianceName.toLowerCase()}/controls`,
+          formData
+        );
+      }
+      setShowPopup(false);
+      setFormData({});
+      setEditingId(null);
+      fetchData();
+    } catch (err) {
+      setError(err.response?.data?.message || "Operation failed");
     }
-    setShowPopup(false);
-    setFormData({});
-    setEditingId(null);
-    fetchData();
   };
 
   return (
     <div className="cc-container">
       <div className="cc-wrapper">
-        <div className="cc-header">{title} Controls</div>
-        <button className="cc-add-btn" onClick={() => setShowPopup(true)}>
-          + Add {title} Control
+        <div className="cc-header">
+          {complianceName} Controls
+          {error && <div className="cc-error">{error}</div>}
+        </div>
+        
+        <button 
+          className="cc-add-btn" 
+          onClick={() => {
+            setFormData({});
+            setEditingId(null);
+            setShowPopup(true);
+          }}
+        >
+          + Add {complianceName} Control
         </button>
 
-        <div className="cc-table-wrapper">
-          <table className="cc-table">
-            <thead>
-              <tr>
-                {fields.map((f) => (
-                  <th key={f.name}>{f.label}</th>
-                ))}
-                <th>Category</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item) => (
-                <tr key={item._id}>
+        {isLoading ? (
+          <div className="cc-loading">Loading controls...</div>
+        ) : (
+          <div className="cc-table-wrapper">
+            <table className="cc-table">
+              <thead>
+                <tr>
                   {fields.map((f) => (
-                    <td key={f.name}>{item[f.name]}</td>
+                    <th key={f.name}>{f.label}</th>
                   ))}
-                  <td>
-                    {typeof item.category === "object" && item.category
-                      ? item.category.name
-                      : categories.find((c) => c._id === item.category)?.name ||
-                        "Unknown"}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="icon-btn"
-                    >
-                      <FaEdit size={12} color="#4e4e4e"/>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="icon-btn"
-                    >
-                      <FaTrash size={12} color="#4e4e4e"/>
-                    </button>
-                  </td>
+                  <th>Category</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {controls.length > 0 ? (
+                  controls.map((control) => (
+                    <tr key={control._id}>
+                      {fields.map((f) => (
+                        <td key={`${control._id}-${f.name}`}>
+                          {control[f.name]}
+                        </td>
+                      ))}
+                      <td>
+                        {typeof control.category === "object" && control.category
+                          ? control.category.name
+                          : categories.find((c) => c._id === control.category)
+                              ?.name || "Unknown"}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleEdit(control)}
+                          className="icon-btn"
+                          aria-label="Edit"
+                        >
+                          <FaEdit size={12} color="#4e4e4e" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(control._id)}
+                          className="icon-btn"
+                          aria-label="Delete"
+                        >
+                          <FaTrash size={12} color="#4e4e4e" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={fields.length + 2} className="cc-no-data">
+                      No controls found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {showPopup && (
           <div className="cc-popup-overlay">
             <form className="cc-popup-form" onSubmit={handleSubmit}>
               <h3>
-                {editingId ? "Edit" : "Add"} {title} Control
+                {editingId ? "Edit" : "Add"} {complianceName} Control
               </h3>
+              
               <label>
                 Category
                 <select
@@ -131,18 +183,32 @@ const ComplianceControl = ({ title, apiBasePath, fields }) => {
                   ))}
                 </select>
               </label>
+              
               {fields.map((f) => (
                 <label key={f.name}>
                   {f.label}
-                  <input
-                    type="text"
-                    name={f.name}
-                    value={formData[f.name] || ""}
-                    onChange={handleChange}
-                    required
-                  />
+                  {f.type === "textarea" ? (
+                    <textarea
+                      name={f.name}
+                      value={formData[f.name] || ""}
+                      onChange={handleChange}
+                      required={f.required !== false}
+                    />
+                  ) : (
+                    <input
+                      type={f.type || "text"}
+                      name={f.name}
+                      value={formData[f.name] || ""}
+                      onChange={handleChange}
+                      required={f.required !== false}
+                      pattern={f.pattern}
+                      minLength={f.minLength}
+                      maxLength={f.maxLength}
+                    />
+                  )}
                 </label>
               ))}
+              
               <div className="cc-popup-actions">
                 <button
                   type="button"

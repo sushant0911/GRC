@@ -18,11 +18,19 @@ const CategoryTable = ({ categories, onEdit, onDelete }) => {
               <tr key={cat._id}>
                 <td>{cat.name}</td>
                 <td>{cat.description}</td>
-                <td>
-                  <button className="icon-btn" title="Edit" onClick={() => onEdit(cat)}>
+                <td className="icon-container">
+                  <button
+                    className="icon-btn"
+                    title="Edit"
+                    onClick={() => onEdit(cat)}
+                  >
                     <FaEdit size={16} />
                   </button>
-                  <button className="icon-btn" title="Delete" onClick={() => onDelete(cat._id)}>
+                  <button
+                    className="icon-btn"
+                    title="Delete"
+                    onClick={() => onDelete(cat._id)}
+                  >
                     <FaTrash size={16} />
                   </button>
                 </td>

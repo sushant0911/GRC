@@ -1,4 +1,3 @@
-
 export const complianceConfigs = {
   ISO: {
     apiBasePath: "/api/compliance/ISO",

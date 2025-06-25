@@ -76,7 +76,7 @@
 }
 
 /* Action Buttons */
-.icon-btn {
+.cc-container .icon-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -84,12 +84,12 @@
   margin-right: 8px;
   transition: transform 0.2s ease;
 }
-.icon-btn:hover {
+.cc-container .icon-btn:hover {
   transform: scale(1.1);
 }
 
 /* Popup Overlay */
-.cc-popup-overlay {
+.cc-container .cc-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -149,8 +149,8 @@
   gap: 12px;
   margin-top: 12px;
 }
-.cancel-btn,
-.save-btn {
+.cc-container .cancel-btn,
+.cc-container .save-btn {
   cursor: pointer;
   display: flex;
   align-items: center;

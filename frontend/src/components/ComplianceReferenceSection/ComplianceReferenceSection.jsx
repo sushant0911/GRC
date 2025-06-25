@@ -1,12 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import SearchSelect from "../SearchSelect/SearchSelect";
 import "./ComplianceReferenceSection.css";
-
-const complianceOptions = [
-  { label: "ISO", value: "ISO" },
-  { label: "CICRA", value: "CICRA" },
-  { label: "CIBIL", value: "CIBIL" },
-];
 
 const ComplianceReferenceSection = ({
   id = null,
@@ -20,6 +15,31 @@ const ComplianceReferenceSection = ({
   onChange,
   onEdit,
 }) => {
+  const [complianceOptions, setComplianceOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCompliance, setSelelectedCompliance] = useState("");
+
+  useEffect(() => {
+    const fetchComplianceOptions = async () => {
+      try {
+        const response = await axios.get("/api/compliances");
+        setComplianceOptions(response.data);
+      } catch (error) {
+        console.error("Error fetching compliance options:", error);
+        setComplianceOptions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComplianceOptions();
+  }, []);
+
+  if (loading) {
+    return <div>Loading compliance options...</div>;
+  }
+
+
   return (
     <div className="compliance-reference-container">
       <label>Compliance & Reference Number</label>
@@ -33,13 +53,16 @@ const ComplianceReferenceSection = ({
                   value={pair.compliance}
                   onChange={(e) => {
                     onChange(idx, "compliance", e.target.value);
+                    setSelelectedCompliance(e.target.value);
                   }}
                   required
                 >
-                  <option value="">-- Compliance --</option>
+                  <option value="" disabled>
+                    -- Compliance --
+                  </option>
                   {complianceOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
+                    <option key={opt.name} value={opt.name}>
+                      {opt.name}
                     </option>
                   ))}
                 </select>
@@ -50,8 +73,13 @@ const ComplianceReferenceSection = ({
                   <SearchSelect
                     className="search-select"
                     name="control"
-                    options={controlOptions}
-                    value={pair}
+                    options={
+                      complianceOptions
+                        .find((f) => f.name === selectedCompliance)
+                        ?.controls.map((f) => {
+                          return { label: f.controlName, value: f };
+                        }) || []
+                    }
                     onChange={(selectedOption) => {
                       onChange(
                         idx,
@@ -60,15 +88,6 @@ const ComplianceReferenceSection = ({
                         selectedOption
                       );
                     }}
-                    getCompareKey={(val) =>
-                      compliance === "ISO"
-                        ? val?.isoControlRef
-                        : compliance === "CIBIL"
-                        ? val?.cibilRef
-                        : compliance === "CICRA"
-                        ? val?.cicraRef
-                        : ""
-                    }
                   />
                 ) : (
                   <p className="fake-input">{pair.controlName}</p>

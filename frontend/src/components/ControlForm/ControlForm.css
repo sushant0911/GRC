@@ -1,43 +1,49 @@
 /* ControlForm.css */
 .control-form-container {
   width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
 }
 
-.control-form {
+.control-form-container .control-form {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 2rem;
 }
 
-.form-header {
+.control-form-container .form-header {
   color: #2c3e50;
   margin-bottom: 1rem;
   font-size: 1.2rem;
   text-align: left;
 }
 
-.form-group {
+.control-form-container .form-group {
   margin-bottom: 1.25rem;
 }
 
-.form-group label {
+.control-form-container .form-group label {
   font-weight: 600;
   color: var(--primary-dark);
   letter-spacing: 0.5px;
   font-size: 0.8rem;
 }
 
-.form-label {
+.loading-indicator {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.control-form-container .form-label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: #333;
 }
 
-.form-control {
+.control-form-container .form-control {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
@@ -46,28 +52,28 @@
   transition: border-color 0.2s;
 }
 
-.form-control option {
+.control-form-container .form-control option {
   font-size: 0.8rem;
 }
 
-.form-control:focus {
+.control-form-container .form-control:focus {
   border-color: #7c6fd1;
   outline: none;
   box-shadow: 0 0 0 2px rgba(124, 111, 209, 0.2);
 }
 
-.form-control[type="text"],
-.form-control[type="email"],
-.form-control[type="password"] {
+.control-form-container .form-control[type="text"],
+.control-form-container .form-control[type="email"],
+.control-form-container .form-control[type="password"] {
   height: 40px;
 }
 
-textarea.form-control {
+.control-form-container textarea .form-control {
   min-height: 120px;
   resize: vertical;
 }
 
-.submit-button {
+.control-form-container .submit-button {
   background-color: #7c6fd1;
   color: white;
   border: none;
@@ -79,22 +85,7 @@ textarea.form-control {
   transition: background-color 0.2s;
 }
 
-.submit-button:hover {
-  background-color: #6a5dbb;
-}
 
-.submit-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.loading-indicator {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .control-form-container {
     padding: 1rem;

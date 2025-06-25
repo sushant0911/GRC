@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 
 const ControlsTableRow = ({ control, onDelete }) => {
+  console.log(control?.complianceReferences);
+
   const navigate = useNavigate();
 
   const handleDelete = (e) => {
@@ -17,38 +19,24 @@ const ControlsTableRow = ({ control, onDelete }) => {
       title="Click to edit"
       style={{ cursor: "pointer" }}
     >
-      <td>
-        {
-          control?.complianceReferences?.find(
-            (ref) => ref.compliance === "ISO"
-          )?.controlNo
-        }
-      </td>
-      <td>
-        {control.complianceReferences
-          ?.filter((ref) => ref.compliance === "CICRA")
-          .map((ref) => ref.referenceNumber)
-          .join(", ") || "-"}
-      </td>
-      <td>
-        {control.complianceReferences
-          ?.filter((ref) => ref.compliance === "CIBIL")
-          .map((ref) => ref.referenceNumber)
-          .join(", ") || "-"}
-      </td>
+      {control?.complianceReferences?.map((f) => {
+        return (
+          <td>{f.controlNo}</td>
+        )
+      })}
       <td>{control.controlName}</td>
       <td>{control.auditObjectiveSummary}</td>
       <td>
         <span
           className={
             "risk-pill " +
-            (control.riskLevel === "critical"
+            (control.riskLevel === "Critical"
               ? "risk-critical"
-              : control.riskLevel === "high"
+              : control.riskLevel === "High"
               ? "risk-high"
-              : control.riskLevel === "medium"
+              : control.riskLevel === "Medium"
               ? "risk-medium"
-              : control.riskLevel === "low"
+              : control.riskLevel === "Low"
               ? "risk-low"
               : "")
           }

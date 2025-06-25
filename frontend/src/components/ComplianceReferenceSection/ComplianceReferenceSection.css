@@ -19,19 +19,19 @@
   border-radius: 4px;
 }
 
-.compliance-input {
+.compliance-reference-container .compliance-input {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   gap: 0.8rem;
 }
 
-.compliance-actions {
+.compliance-reference-container .compliance-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.compliance-edit-btn {
+.compliance-reference-container .compliance-edit-btn {
   background: none;
   border: none;
   color: #7c6fd1;
@@ -39,11 +39,11 @@
   padding: 4px 8px;
 }
 
-.compliance-edit-btn:hover {
+.compliance-reference-container .compliance-edit-btn:hover {
   text-decoration: underline;
 }
 
-.fake-input {
+.compliance-reference-container .fake-input {
   padding: 8px;
   margin: 0;
   border: 1px solid transparent;
@@ -51,13 +51,13 @@
   border-radius: 4px;
 }
 
-.compliancePlusIcon {
+.compliance-reference-container .compliancePlusIcon {
   display: flex;
   justify-content: start;
   margin-bottom: 2rem;
 }
 
-.plus-icon {
+.compliance-reference-container .plus-icon {
    display: inline-flex;
   align-items: center;
   justify-content: center;
