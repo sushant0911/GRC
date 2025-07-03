@@ -28,15 +28,11 @@ const initialState = {
 const ControlForm = ({ id, onSuccess }) => {
   const [formData, setFormData] = useState(initialState);
   const [categories, setCategories] = useState([]);
-  const [controls, setControls] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [compliance, setCompliance] = useState("");
-  const [editCompliance, setEditCompliance] = useState(-1);
   const [newPlus, setNewPlus] = useState(-1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
   const [error, setError] = useState(null);
-  console.log(formData);
   
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -66,26 +62,8 @@ const ControlForm = ({ id, onSuccess }) => {
         setIsLoading(false);
       }
     };
-
     fetchInitialData();
-  }, [id]);
-
-  const mapControlOption = (ctrl, complianceType) => {
-    if (!ctrl) return null;
-    
-    return {
-      label: ctrl.controlName || "",
-      value: ctrl,
-      refValue:
-        complianceType === "ISO" ? ctrl.isoControlRef :
-        complianceType === "CIBIL" ? ctrl.cibilRef :
-        complianceType === "CICRA" ? ctrl.cicraRef : "",
-    };
-  };
-
-  const controlOptions = controls
-    .map((ctrl) => mapControlOption(ctrl, compliance))
-    .filter((opt) => opt?.refValue);
+  }, []);
 
   // Form handlers
   const handleChange = (e) => {
@@ -162,7 +140,7 @@ const ControlForm = ({ id, onSuccess }) => {
     }
   };
 
-  const handleComplianceRefChange = async (idx, field, value, selectedOption) => {``
+  const handleComplianceRefChange = async (idx, field, value, selectedOption) => {
     const updatedRefs = formData.complianceReferences.map((ref, i) =>
       i === idx
         ? {
@@ -179,38 +157,12 @@ const ControlForm = ({ id, onSuccess }) => {
     );
 
     setFormData((prev) => ({ ...prev, complianceReferences: updatedRefs }));
-
-    // if (field === "compliance") {
-    //   const normValue = value.toUpperCase();
-    //   setCompliance(normValue);
-      
-    //   try {
-    //     let endpoint;
-    //     switch (normValue) {
-    //       case "ISO":
-    //         endpoint = "/api/compliance-iso";
-    //         break;
-    //       case "CIBIL":
-    //         endpoint = "/api/compliance-cibil";
-    //         break;
-    //       case "CICRA":
-    //         endpoint = "/api/compliance-cicra";
-    //         break;
-    //       default:
-    //         return;
-    //     }
-
-    //     const res = await axios.get(endpoint);
-    //     setControls(res.data || []);
-    //   } catch (err) {
-    //     console.error("Error fetching controls:", err);
-    //     setControls([]);
-    //   }
-    // }
   };
 
   // Form submission
   const handleSubmit = async (e) => {
+
+    console.log("Handle Submit Called !",formData);
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
@@ -260,7 +212,7 @@ const ControlForm = ({ id, onSuccess }) => {
 
   return (
     <div className="control-form-container">
-      <form onSubmit={handleSubmit} className="control-form">
+      <div className="control-form">
         <h1 className="form-header">
           {id ? "Edit Control" : "Create Control"}
         </h1>
@@ -344,14 +296,11 @@ const ControlForm = ({ id, onSuccess }) => {
           <ComplianceReferenceSection
             id={id}
             complianceReferences={formData.complianceReferences}
-            controlOptions={controlOptions}
-            compliance={compliance}
-            editCompliance={editCompliance}
             newPlus={newPlus}
             onAdd={handleAddComplianceRef}
             onRemove={handleRemoveComplianceRef}
             onChange={handleComplianceRefChange}
-            onEdit={setEditCompliance}
+            required
           />
         </section>
 
@@ -385,6 +334,7 @@ const ControlForm = ({ id, onSuccess }) => {
             type="submit"
             className="submit-button"
             disabled={isSubmitting}
+            onClick={handleSubmit}
           >
             {isSubmitting
               ? "Processing..."
@@ -393,7 +343,7 @@ const ControlForm = ({ id, onSuccess }) => {
               : "Save Control"}
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const ControlsTableRow = ({ control, onDelete }) => {
-  console.log(control?.complianceReferences);
+  const [compliances, setCompliances] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -13,17 +16,49 @@ const ControlsTableRow = ({ control, onDelete }) => {
     }
   };
 
+  useEffect(() => {
+    const fetchCompliances = async () => {
+      try {
+        const response = await axios.get(`/api/compliances`);
+        setCompliances(response.data);
+      } catch (error) {
+        console.error("Error fetching compliances:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompliances();
+  }, []);
+
+  // Function to get controlNo for a specific compliance
+  const getControlNo = (complianceName) => {
+    if (!control?.complianceReferences) return "-";
+    const matchingRef = control.complianceReferences.find(
+      ref => ref.compliance === complianceName
+    );
+    return matchingRef ? matchingRef.controlNo : "-";
+  };
+
+  if (loading) {
+    return (
+      <tr>
+        <td colSpan="12">Loading...</td>
+      </tr>
+    );
+  }
+
   return (
     <tr
       onClick={() => navigate(`/controls/create/${control._id}`)}
       title="Click to edit"
       style={{ cursor: "pointer" }}
     >
-      {control?.complianceReferences?.map((f) => {
-        return (
-          <td>{f.controlNo}</td>
-        )
-      })}
+      {/* Render a column for each compliance */}
+      {compliances.map(compliance => (
+        <td key={compliance._id}>{getControlNo(compliance.name)}</td>
+      ))}
+      
       <td>{control.controlName}</td>
       <td>{control.auditObjectiveSummary}</td>
       <td>

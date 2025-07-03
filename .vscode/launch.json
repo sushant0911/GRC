@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "type": "chrome",
+      "name": "http://localhost:5173/controls/create/685cdb9a3b9ed0e0b0f69e4f",
+      "request": "launch",
+      "url": "http://localhost:5173/controls/create/685cdb9a3b9ed0e0b0f69e4f"
+    }
+  ]
+}

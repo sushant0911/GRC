@@ -1,8 +1,9 @@
 /* Main Layout */
 .compliance-page-container {
   display: flex;
+  width: 100vw;
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background: rgb(255, 255, 255);
 }
 
 .compliance-page-container .content-container {
@@ -19,6 +20,10 @@
   color: var(--primary-dark);
 }
 
+.compliance-page-container form {
+  width: 100vw;
+}
+
 .compliance-page-container .section-title {
   font-size: 1.1rem;
   font-weight: 500;
@@ -26,15 +31,14 @@
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #e2e8f0;
   text-align: start;
-  
+  margin-top: 4.5rem;
 }
 
 .compliance-page-container .compliance-form-container {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  width: 70%;
+  width: 100%;
 }
 
 /* Form Structure */
@@ -42,6 +46,9 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
+  border: none;
+  background: white;
 }
 
 
@@ -56,7 +63,6 @@
 .compliance-page-container .form-group {
   display: flex;
   flex-direction: column;
-  
   width: 100%;
 }
 

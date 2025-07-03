@@ -4,19 +4,16 @@ import SearchSelect from "../SearchSelect/SearchSelect";
 import "./ComplianceReferenceSection.css";
 
 const ComplianceReferenceSection = ({
-  id = null,
+  id ,
   complianceReferences,
-  controlOptions,
-  compliance,
-  editCompliance,
   newPlus,
   onAdd,
   onRemove,
-  onChange,
-  onEdit,
+  onChange
 }) => {
   const [complianceOptions, setComplianceOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editCompliance, setEditCompliance] = useState(-1);
   const [selectedCompliance, setSelelectedCompliance] = useState("");
 
   useEffect(() => {
@@ -34,6 +31,37 @@ const ComplianceReferenceSection = ({
 
     fetchComplianceOptions();
   }, []);
+
+  const fetchControlsForCompliance = async (complianceName) => {
+    try {
+      const response = await axios.get(`/api/compliances/${complianceName}/controls`);
+      setControlsMap(prev => ({
+        ...prev,
+        [complianceName]: response.data
+      }));
+    } catch (error) {
+      console.error(`Error fetching controls for ${complianceName}:`, error);
+      setControlsMap(prev => ({
+        ...prev,
+        [complianceName]: []
+      }));
+    }
+  };
+
+  const handleEditClick = (idx, complianceName) => {
+    setEditCompliance(idx);
+    if (complianceName && !controlsMap[complianceName]) {
+      fetchControlsForCompliance(complianceName);
+    }
+  };
+
+  const handleComplianceChange = (idx, value) => {
+    setSelectedCompliance(value);
+    onChange(idx, "compliance", value);
+    if (value && !controlsMap[value]) {
+      fetchControlsForCompliance(value);
+    }
+  };
 
   if (loading) {
     return <div>Loading compliance options...</div>;
@@ -80,6 +108,8 @@ const ComplianceReferenceSection = ({
                           return { label: f.controlName, value: f };
                         }) || []
                     }
+                    value={pair}
+                    placeholder="Select Control"
                     onChange={(selectedOption) => {
                       onChange(
                         idx,
@@ -100,8 +130,9 @@ const ComplianceReferenceSection = ({
                     <button
                       className="compliance-edit-btn"
                       onClick={() => {
-                        onEdit(idx);
-                        onChange(idx, "compliance", pair.compliance);
+                        setEditCompliance(idx);
+                        handleEditClick(idx, pair.compliance);
+                        handleComplianceChange(idx, pair.compliance);
                       }}
                     >
                       Edit

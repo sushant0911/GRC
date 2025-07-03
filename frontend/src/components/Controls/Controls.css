@@ -77,11 +77,14 @@
   color: var(--text-light);
 }
 
-.controls-page-wrapper .page-loading {
-  text-align: center;
-  margin-top: 40px;
-  font-size: 1.1rem;
+.page-loading {
+  width: 100vw;
+  height: 100vh;
+  font-size: 0.9rem;
   color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .controls-page-wrapper .controls-table {

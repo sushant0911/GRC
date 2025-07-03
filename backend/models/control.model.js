@@ -90,22 +90,22 @@ const controlSchema = new mongoose.Schema({
 });
 
 // Initialize the enum cache when model loads
-refreshComplianceEnum().catch(err => {
-  console.error('Failed to initialize compliance enum:', err);
-});
+// refreshComplianceEnum().catch(err => {
+//   console.error('Failed to initialize compliance enum:', err);
+// });
 
 const Compliance = mongoose.model('Compliance');
-if (Compliance) {
-  Compliance.watch().on('change', async () => {
-    try {
-      await refreshComplianceEnum();
-    } catch (err) {
-      console.error('Error refreshing compliance enum:', err);
-    }
-  });
-} else {
-  console.warn('Compliance model not found - enum refresh watcher not initialized');
-}
+// if (Compliance) {
+//   Compliance.watch().on('change', async () => {
+//     try {
+//       await refreshComplianceEnum();
+//     } catch (err) {
+//       console.error('Error refreshing compliance enum:', err);
+//     }
+//   });
+// } else {
+//   console.warn('Compliance model not found - enum refresh watcher not initialized');
+// }
 
 const Control = mongoose.model('Control', controlSchema);
 export default Control;
