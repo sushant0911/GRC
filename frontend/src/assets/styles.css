@@ -330,12 +330,12 @@ button[type="submit"]:hover {
 
 .risk-high {
     background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    color: #dc5d26;
 }
 
 .risk-medium {
-    background: rgba(245, 158, 11, 0.1);
-    color: #d97706;
+    background: rgba(218, 245, 11, 0.1);
+    color: #ffb700;
 }
 
 .risk-low {

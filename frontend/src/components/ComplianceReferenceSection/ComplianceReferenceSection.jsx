@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import SearchSelect from "../SearchSelect/SearchSelect";
 import "./ComplianceReferenceSection.css";
+import { FaEdit } from "react-icons/fa";
 
 const ComplianceReferenceSection = ({
   id ,
@@ -14,7 +15,8 @@ const ComplianceReferenceSection = ({
   const [complianceOptions, setComplianceOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editCompliance, setEditCompliance] = useState(-1);
-  const [selectedCompliance, setSelelectedCompliance] = useState("");
+  // const [selectedCompliance, setSelectedCompliance] = useState("");
+  const [controlsMap, setControlsMap] = useState({});
 
   useEffect(() => {
     const fetchComplianceOptions = async () => {
@@ -55,13 +57,13 @@ const ComplianceReferenceSection = ({
     }
   };
 
-  const handleComplianceChange = (idx, value) => {
-    setSelectedCompliance(value);
-    onChange(idx, "compliance", value);
-    if (value && !controlsMap[value]) {
-      fetchControlsForCompliance(value);
-    }
-  };
+  // const handleComplianceChange = (idx, value) => {
+  //   setSelectedCompliance(value);
+  //   onChange(idx, "compliance", value);
+  //   if (value && !controlsMap[value]) {
+  //     fetchControlsForCompliance(value);
+  //   }
+  // };
 
   if (loading) {
     return <div>Loading compliance options...</div>;
@@ -81,7 +83,10 @@ const ComplianceReferenceSection = ({
                   value={pair.compliance}
                   onChange={(e) => {
                     onChange(idx, "compliance", e.target.value);
-                    setSelelectedCompliance(e.target.value);
+                    // setSelectedCompliance(e.target.value);
+                    if (e.target.value && !controlsMap[e.target.value]) {
+                      fetchControlsForCompliance(e.target.value);
+                    }
                   }}
                   required
                 >
@@ -102,11 +107,10 @@ const ComplianceReferenceSection = ({
                     className="search-select"
                     name="control"
                     options={
-                      complianceOptions
-                        .find((f) => f.name === selectedCompliance)
-                        ?.controls.map((f) => {
-                          return { label: f.controlName, value: f };
-                        }) || []
+                      controlsMap[pair.compliance]?.map((control) => ({
+                        label: control.controlName,
+                        value: control,
+                      })) || []
                     }
                     value={pair}
                     placeholder="Select Control"
@@ -130,12 +134,10 @@ const ComplianceReferenceSection = ({
                     <button
                       className="compliance-edit-btn"
                       onClick={() => {
-                        setEditCompliance(idx);
                         handleEditClick(idx, pair.compliance);
-                        handleComplianceChange(idx, pair.compliance);
                       }}
                     >
-                      Edit
+                      <FaEdit size={16} />
                     </button>
                   )}
 

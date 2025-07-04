@@ -29,18 +29,25 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
 }
 
 .compliance-reference-container .compliance-edit-btn {
+  height: 24;
+  width: 24;
   background: none;
+  border-radius: 50%;
   border: none;
-  color: #7c6fd1;
+  color: var(--primary);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 10px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .compliance-reference-container .compliance-edit-btn:hover {
-  text-decoration: underline;
+  background-color: rgb(246, 248, 255);
 }
 
 .compliance-reference-container .fake-input {
